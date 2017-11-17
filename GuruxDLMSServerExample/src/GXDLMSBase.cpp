@@ -343,7 +343,7 @@ CGXDLMSData* AddLogicalDeviceName(CGXDLMSObjectCollection& items, unsigned long 
 #if defined(_WIN32) || defined(_WIN64)//Windows
     sprintf_s(buff, "GRX%.13d", sn);
 #else
-    sprintf(buff, "GRX%.13d", sn);
+    sprintf(buff, "GRX%.13ld", sn);
 #endif
     CGXDLMSVariant id;
     id.Add((const char*)buff, 16);
@@ -374,7 +374,7 @@ void AddElectricityID1(CGXDLMSObjectCollection& items, unsigned long sn)
 #if defined(_WIN32) || defined(_WIN64)//Windows
     sprintf_s(buff, "GRX%.13d", sn);
 #else
-    sprintf(buff, "GRX%.13d", sn);
+    sprintf(buff, "GRX%.13ld", sn);
 #endif
     CGXDLMSVariant id;
     id.Add((const char*)buff, 16);
