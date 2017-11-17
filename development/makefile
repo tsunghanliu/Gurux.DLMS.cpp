@@ -33,14 +33,14 @@
 #---------------------------------------------------------------------------
 # Generate STATIC library.
 TARGET   = libgurux_dlms_cpp.a
-CC       = g++
+CC       = gcc
 # compiling flags here
 CFLAGS   = -O3 -Wall -fPIC 
-
+CPPFLAGS = -std=c++11
 LINKER   = ar rvs
 
 # linking flags here
-LFLAGS   =  
+LFLAGS   = 
 
 # change these to set the proper directories where each files shoould be
 
@@ -52,22 +52,37 @@ SOURCES  := $(wildcard $(SRCDIR)/*.cpp)
 INCLUDES := $(wildcard $(SRCDIR)/*.h)
 OBJECTS  := $(SOURCES:$(SRCDIR)/%.cpp=$(OBJDIR)/%.o)
 rm       = rm -f
+mkdir    = mkdir -p
+
+all: dirs $(LIBDIR)/$(TARGET)
 
 $(LIBDIR)/$(TARGET): $(OBJECTS)
 	@$(LINKER) $@ $(LFLAGS) $(OBJECTS)
 	@echo "Linking complete!"
 
 $(OBJECTS): $(OBJDIR)/%.o : $(SRCDIR)/%.cpp
-	@$(CC) $(CFLAGS) -c $< -o $@
+	@$(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
 	@echo "Compiled "$<" successfully!"
 
 .PHONEY: clean
 clean:
 	@$(rm) $(OBJECTS)
+	@$(rm) -r $(OBJDIR)
 	@echo "Cleanup complete!" 
 	@echo $(OBJECTS)
 
 .PHONEY: remove
 remove: clean
 	@$(rm) $(LIBDIR)/$(TARGET)
+	@$(rm) -r $(LIBDIR)
 	@echo "Executable removed!"
+
+.PHONEY: dirs
+dirs: $(OBJDIR) $(LIBDIR)
+
+$(OBJDIR):
+	@$(mkdir) $(OBJDIR)
+
+$(LIBDIR):
+	@$(mkdir) $(LIBDIR)
+
